@@ -9,7 +9,7 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">It's My Notes</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -18,35 +18,21 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Features</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-            </li>
           </ul>
         </div>
       </div>
     </nav>
 
     <div class="container">
-        <h1>Enter your note here</h1>
+        <h2>Save your notes here</h2>
         <form method="post" action="/submit_note">  <!-- Specify the action -->
           <div class="mb-3">
-            <label for="title" class="form-label">Note Title</label>
+            <label for="title" class="form-label">Title</label>
             <input type="text" class="form-control" id="title" name="title" required>  <!-- Added name attribute -->
-            <div id="desc" class="form-text">Notes Description</div>
           </div>
           <div class="mb-3">
-            <label for="noteText" class="form-label">Note Text</label>
+            <label for="noteText" class="form-label">Notes Text</label>
             <input type="text" class="form-control" id="noteText" name="noteText" required>  <!-- Added name attribute -->
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1" name="exampleCheck">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
@@ -56,7 +42,11 @@
       <h2>Your Notes</h2>
       <ul>
         {% for item in newDocs %}
-          <li>{{ item.note }}</li>
+          <li>{{ item.note }}
+          <form method="post" action="/delete_note" style="display:inline;">
+    <input type="hidden" name="noteId" value="{{ item.id }}">
+    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+</form></li>
         {% endfor %}
       </ul>
     </div>

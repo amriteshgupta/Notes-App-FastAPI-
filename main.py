@@ -1,3 +1,4 @@
+from bson import ObjectId
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
@@ -23,3 +24,18 @@ async def read_item(request: Request):
     newDocs = [{"id": str(doc["_id"]), "note": doc["note"]} for doc in docs]
 
     return templates.TemplateResponse("index.html", {"request": request, "newDocs": newDocs})
+
+@app.post("/delete_note")
+async def delete_note(noteId: str = Form(...)):
+    print(f"Note ID to be deleted: {noteId}")  # Debugging line
+
+    try:
+        db = conn.notes
+        # Convert the noteId to ObjectId and delete it
+        result = db.notes.delete_one({"_id": ObjectId(noteId)})
+        print(f"Deletion result: {result.deleted_count}")  # Debugging line
+    except Exception as e:
+        print(f"Error: {str(e)}")  # Debugging line to catch potential issues
+
+    # Redirect to homepage after deletion
+    return RedirectResponse(url='/', status_code=303)
